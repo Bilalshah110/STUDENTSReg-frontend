@@ -30,13 +30,13 @@ function AddStudent() {
     validationSchema: studentSchema,
     onSubmit: (values, action) => {
       const studentReg = {
-        name: values.name,
+        name: values.name.toUpperCase(),
         email: values.email.toLowerCase(),
         password: values.password,
         cpassword: values.cpassword,
         phone: values.phone,
         dob: values.dob,
-        city: values.city,
+        city: values.city.toUpperCase(),
       };
       axios.post("https://studentsreg-backend.cyclic.app/", studentReg).then(
         () => {

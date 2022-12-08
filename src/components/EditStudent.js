@@ -33,24 +33,26 @@ function EditStudent() {
     validationSchema: studentSchema,
     onSubmit: (values, action) => {
       const studentEdit = {
-        name: values.name,
+        name: values.name.toUpperCase(),
         email: values.email.toLowerCase(),
         password: values.password,
-        cpassword: values.password,
+        cpassword: values.cpassword,
         phone: values.phone,
         dob: values.dob,
-        city: values.city,
+        city: values.city.toUpperCase(),
       };
-      axios.put(`https://studentsreg-backend.cyclic.app/${id}`, studentEdit).then(
-        () => {
-          action.resetForm();
-          history("/");
-          setError();
-        },
-        (err) => {
-          setError(err.response.data.error);
-        }
-      );
+      axios
+        .put(`https://studentsreg-backend.cyclic.app/${id}`, studentEdit)
+        .then(
+          () => {
+            action.resetForm();
+            history("/");
+            setError();
+          },
+          (err) => {
+            setError(err.response.data.error);
+          }
+        );
     },
   });
   useEffect(() => {
@@ -60,7 +62,9 @@ function EditStudent() {
   const fetchData = async () => {
     const id = window.location.pathname.split("/").pop();
     try {
-      const record = await axios.get(`https://studentsreg-backend.cyclic.app/${id}`);
+      const record = await axios.get(
+        `https://studentsreg-backend.cyclic.app/${id}`
+      );
       setInitialValues(record.data);
     } catch (error) {
       console.log(error);

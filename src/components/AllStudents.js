@@ -23,8 +23,6 @@ function AllStudents() {
       (student) =>
         student.name.toLowerCase().includes(searchStudent) ||
         student.name.toUpperCase().includes(searchStudent) ||
-        student.email.toLowerCase().includes(searchStudent) ||
-        student.email.toUpperCase().includes(searchStudent) ||
         student.city.toLowerCase().includes(searchStudent) ||
         student.city.toUpperCase().includes(searchStudent)
     );
