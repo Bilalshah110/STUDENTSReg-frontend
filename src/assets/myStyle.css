@@ -1,0 +1,78 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+}
+
+.nav-li-a {
+  color: black;
+  text-decoration: none;
+  margin-left: 30px;
+}
+.nav-li-a:hover {
+  font-weight: bold;
+  color: rgb(4, 4, 4) !important;
+}
+.nav-brand-font {
+  font-weight: bold;
+}
+.active {
+  font-weight: bold;
+}
+
+.topNav {
+  background: rgb(240, 240, 240);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.content {
+  min-height: 50vh;
+}
+
+.input-errors {
+  color: red;
+  font-size: x-small;
+}
+
+.icon {
+  padding: "3px";
+  cursor: "pointer";
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.delete-icon {
+  color: rgb(255, 58, 58);
+}
+
+.delete-icon:hover {
+  color: rgb(255, 1, 1);
+}
+
+.edit-icon {
+  color: rgb(37, 110, 255);
+}
+
+.edit-icon:hover {
+  color: rgb(0, 65, 194);
+}
+
+.search-student {
+  width: 25%;
+}
+
+.my-btn {
+  color: black;
+  background-color: rgb(230, 230, 230);
+  padding: 7px 10px;
+}
+.my-btn:hover {
+  color: black;
+  background-color: rgb(180, 180, 180);
+}
+
+.footer {
+  background: rgb(240, 240, 240);
+  min-height: 20vh;
+}
