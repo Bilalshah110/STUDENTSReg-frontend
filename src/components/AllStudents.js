@@ -21,10 +21,8 @@ function AllStudents() {
     const record = await axios.get("https://studentsreg-backend.cyclic.app/");
     const result = record.data.filter(
       (student) =>
-        student.name.toLowerCase().includes(searchStudent) ||
-        student.name.toUpperCase().includes(searchStudent) ||
-        student.city.toLowerCase().includes(searchStudent) ||
-        student.city.toUpperCase().includes(searchStudent)
+        student.name.includes(searchStudent.toUpperCase()) ||
+        student.city.includes(searchStudent.toUpperCase())
     );
     setStudents(result);
   };
