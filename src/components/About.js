@@ -3,7 +3,7 @@ import React from "react";
 function About() {
   document.title= "STUDENTReg - About"
   return (
-    <div className="container my-3">
+    <div className="container-fluid my-3">
       <h3>About</h3>
       <hr />
 

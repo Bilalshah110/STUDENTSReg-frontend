@@ -14,7 +14,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
-        <div className="content">
+        <div style={{minHeight: '50vh'}}>
           <Routes>
             <Route path="/" element={<AllStudents />} />
             <Route path="/addstudent" element={<AddStudent />} />

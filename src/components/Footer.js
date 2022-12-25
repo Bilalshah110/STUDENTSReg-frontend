@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="footer p-5 mt-5 footer text-center">
+    <footer className="p-5 mt-5 my-bg text-center">
       © 2020 Copyright: STUDENTReg
     </footer>
   );

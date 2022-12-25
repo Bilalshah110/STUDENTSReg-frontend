@@ -3,31 +3,12 @@ body {
   font-size: 18px;
 }
 
-.nav-li-a {
-  color: black;
-  text-decoration: none;
-  margin-left: 30px;
-}
-.nav-li-a:hover {
-  font-weight: bold;
-  color: rgb(4, 4, 4) !important;
-}
-.nav-brand-font {
-  font-weight: bold;
-}
-.active {
-  font-weight: bold;
-}
-
-.topNav {
+.my-bg {
   background: rgb(240, 240, 240);
-  position: sticky;
-  top: 0;
-  z-index: 1;
 }
 
-.content {
-  min-height: 50vh;
+.nav-link{
+font-weight: bold;
 }
 
 .input-errors {
@@ -70,9 +51,4 @@ body {
 .my-btn:hover {
   color: black;
   background-color: rgb(180, 180, 180);
-}
-
-.footer {
-  background: rgb(240, 240, 240);
-  min-height: 20vh;
 }
