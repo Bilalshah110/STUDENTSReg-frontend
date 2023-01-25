@@ -7,8 +7,12 @@ body {
   background: rgb(240, 240, 240);
 }
 
-.nav-link{
-font-weight: bold;
+.nav-link {
+  font-weight: bold;
+}
+
+.my-table {
+  overflow-x: scroll;
 }
 
 .input-errors {
