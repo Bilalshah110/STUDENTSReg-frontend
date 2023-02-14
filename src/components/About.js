@@ -1,9 +1,9 @@
 import React from "react";
 
 function About() {
-  document.title= "STUDENTReg - About"
+  document.title = "STUDENTReg - About";
   return (
-    <div className="container-fluid my-3">
+    <div className="container my-3">
       <h3>About</h3>
       <hr />
 
@@ -21,10 +21,12 @@ function About() {
           Registers on unique email i.e. will not regiter on email registered
           already
         </li>
+        <li>Authorize student after successfull login</li>
         <li>Display Registered Students</li>
         <li>Search Registered Students</li>
-        <li>Edit Students Details</li>
-        <li>Delete Students Data</li>
+        <li>Edit Students record</li>
+        <li>Delete Student's record</li>
+        <li>Student can delete/edit only his record but not others' record</li>
       </ul>
 
       <h5>Development info</h5>
@@ -41,6 +43,7 @@ function About() {
       <h6>Other Dependencies</h6>
       <ul>
         <li>Axios</li>
+        <li>JWT</li>
         <li>Formik</li>
         <li>Yup</li>
         <li>React-icons</li>
@@ -55,6 +58,14 @@ function About() {
       <p>Rawalpindi/Islamabad</p>
       <h6>Email</h6>
       <p>bilalhassain14@gmail.com</p>
+      <a
+        style={{ textDecoration: "none" }}
+        href="https://bilalhassan.netlify.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Click here for more Developer's info
+      </a>
     </div>
   );
 }

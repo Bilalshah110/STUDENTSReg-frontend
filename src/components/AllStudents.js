@@ -9,6 +9,7 @@ function AllStudents() {
 
   const id = localStorage.getItem("id");
   const token = `bearer ${localStorage.getItem("token")}`;
+  const URL = "https://studentsreg-backend.cyclic.app/";
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState();
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function AllStudents() {
   const handleDelete = (student) => {
     id === student._id
       ? axios
-          .delete(`http://localhost:2222/${student._id}`, {
+          .delete(`${URL}/${student._id}`, {
             headers: { Authorization: token },
           })
           .then((res) => {
@@ -38,7 +39,7 @@ function AllStudents() {
 
   const handleSearch = async (e) => {
     const searchStudent = e.target.value;
-    const record = await axios.get("http://localhost:2222", {
+    const record = await axios.get(URL, {
       headers: { Authorization: token },
     });
     const result = record.data.filter(
@@ -55,7 +56,6 @@ function AllStudents() {
     navigate("/login");
   };
 
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -63,12 +63,12 @@ function AllStudents() {
   const fetchData = async () => {
     setLoading("Loading...");
     await axios
-      .get("http://localhost:2222", {
+      .get(URL, {
         headers: { Authorization: token },
       })
       .then((res) => {
         setStudents(res.data);
-        console.log(res.data)
+        console.log(res.data);
         setLoading();
       })
       .catch(() => {

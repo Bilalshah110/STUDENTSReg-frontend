@@ -6,8 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 function EditStudent() {
   const token = `bearer ${localStorage.getItem("token")}`;
-  const URL =
-    "http://localhost:2222" || "https://studentsreg-backend.cyclic.app/";
+  const URL = "https://studentsreg-backend.cyclic.app/";
   document.title = "STUDENTReg - Edit Student";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

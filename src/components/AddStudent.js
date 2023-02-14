@@ -5,8 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { registrationSchema } from "../validation/registrationSchema";
 
 function AddStudent() {
-  const URL =
-    "http://localhost:2222" || "https://studentsreg-backend.cyclic.app/";
+  const URL = "https://studentsreg-backend.cyclic.app/";
   document.title = "STUDENTReg - Add Student";
   const [error, setError] = useState(false);
   const [showPass, setShowPass] = useState(false);

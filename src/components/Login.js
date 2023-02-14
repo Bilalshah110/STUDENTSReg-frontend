@@ -15,7 +15,7 @@ function Login() {
       password,
     };
     await axios
-      .post("http://localhost:2222/login", userLogin)
+      .post("https://studentsreg-backend.cyclic.app/", userLogin)
       .then((res) => {
         const { id, token } = res.data;
         localStorage.setItem("id", id);
