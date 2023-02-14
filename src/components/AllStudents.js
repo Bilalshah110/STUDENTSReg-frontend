@@ -1,25 +1,46 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 function AllStudents() {
   document.title = "STUDENTReg - Registered Students";
+
+  const id = localStorage.getItem("id");
+  const token = `bearer ${localStorage.getItem("token")}`;
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState();
+  const navigate = useNavigate();
+
+  const handleEdit = (student) => {
+    id === student._id
+      ? navigate(`/editstudent/${student._id}`)
+      : alert(`You are not authorized to edit ${student.name}'s record`);
+  };
 
   const handleDelete = (student) => {
-    axios.delete(`https://studentsreg-backend.cyclic.app/${student._id}`);
-    const deleteStudent = students.filter((students) => {
-      return students !== student;
-    });
-    setStudents(deleteStudent);
+    id === student._id
+      ? axios
+          .delete(`http://localhost:2222/${student._id}`, {
+            headers: { Authorization: token },
+          })
+          .then((res) => {
+            alert(res.data.message);
+            const deleteStudent = students.filter((students) => {
+              return students !== student;
+            });
+            setStudents(deleteStudent);
+          })
+          .catch((error) => console.log(error))
+      : alert(`You are not authorized to delete ${student.name}'s record`);
   };
 
   const handleSearch = async (e) => {
     const searchStudent = e.target.value;
-    const record = await axios.get("https://studentsreg-backend.cyclic.app/");
+    const record = await axios.get("http://localhost:2222", {
+      headers: { Authorization: token },
+    });
     const result = record.data.filter(
       (student) =>
         student.name.includes(searchStudent.toUpperCase()) ||
@@ -28,23 +49,36 @@ function AllStudents() {
     setStudents(result);
   };
 
+  const handleLogout = () => {
+    localStorage.setItem("id", "");
+    localStorage.setItem("token", "");
+    navigate("/login");
+  };
+
+
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    setLoading(true);
-    try {
-      const record = await axios.get("https://studentsreg-backend.cyclic.app/");
-      setStudents(record.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+    setLoading("Loading...");
+    await axios
+      .get("http://localhost:2222", {
+        headers: { Authorization: token },
+      })
+      .then((res) => {
+        setStudents(res.data);
+        console.log(res.data)
+        setLoading();
+      })
+      .catch(() => {
+        navigate("/login");
+        setLoading("Connection Error");
+      });
   };
 
   return (
-    <div className="container-fluid mt-2">
+    <div className="container mt-2">
       <div className="d-flex justify-content-between">
         <h4>Registered Students</h4>
         <input
@@ -60,7 +94,7 @@ function AllStudents() {
           style={{ color: "rgb(150, 150, 150)" }}
           className="my-3 mt-5 display-6 container-fluid"
         >
-          Loading...
+          {loading}
         </h5>
       ) : (
         <div>
@@ -89,18 +123,19 @@ function AllStudents() {
                         <td>{student.dob}</td>
                         <td>{student.city}</td>
                         <td>
-                          <Link to={`/editstudent/${student._id}`}>
-                            {" "}
-                            <i title="Edit" className="icon edit-icon">
-                              <FaEdit />
-                            </i>
-                          </Link>
+                          <i
+                            title="Edit"
+                            onClick={() => handleEdit(student)}
+                            className="icon edit-icon"
+                          >
+                            <FaEdit />
+                          </i>
                           &nbsp;&nbsp;
                           <i
                             title="Delete"
                             onClick={() =>
                               window.confirm(
-                                `Are you sure to delete ${student.name}'s data`
+                                `Are you sure to delete ${student.name}'s record`
                               )
                                 ? handleDelete(student)
                                 : null
@@ -125,13 +160,12 @@ function AllStudents() {
             </h5>
           )}
           <div>
-            <Link to="/addstudent">
-              <input
-                type="button"
-                className="form-control btn my-btn"
-                value="Add Student"
-              />
-            </Link>
+            <input
+              type="button"
+              className="form-control btn my-btn mt-3"
+              value="Logout"
+              onClick={handleLogout}
+            />
           </div>
         </div>
       )}

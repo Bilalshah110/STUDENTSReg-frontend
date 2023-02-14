@@ -9,14 +9,16 @@ import EditStudent from "./components/EditStudent";
 import About from "./components/About";
 import ErrorPage from "./components/ErrorPage";
 import Footer from "./components/Footer";
+import Login from "./components/Login";
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Navbar />
-        <div style={{minHeight: '50vh'}}>
+        <div style={{minHeight: '60vh'}}>
           <Routes>
             <Route path="/" element={<AllStudents />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/addstudent" element={<AddStudent />} />
             <Route path="/editstudent/:id" element={<EditStudent />} />
             <Route path="/about" element={<About />} />

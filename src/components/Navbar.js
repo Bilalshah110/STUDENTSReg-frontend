@@ -3,8 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 
 function Header() {
   return (
-    <nav className="navbar navbar-expand-lg my-bg sticky-top py-2 mb-3">
-      <div className="container-fluid">
+    <nav className="navbar navbar-expand-lg my-bg sticky-top py-2 mb-3 ">
+      <div className="container">
         <Link
           className="navbar-brand text-secondary fw-bold me-5"
           data-toggle="collapse"
@@ -46,6 +46,16 @@ function Header() {
               </NavLink>
             </li>
           </ul>
+
+          <div className="ms-auto">
+            <Link
+              to="/addstudent"
+              className="btn btn-outline-dark my-2 my-sm-0"
+              type="submit"
+            >
+              REGISTER
+            </Link>
+          </div>
         </div>
       </div>
     </nav>

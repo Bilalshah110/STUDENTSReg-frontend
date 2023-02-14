@@ -2,13 +2,15 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { studentSchema } from "../validation/studentSchema";
+import { registrationSchema } from "../validation/registrationSchema";
 
 function AddStudent() {
+  const URL =
+    "http://localhost:2222" || "https://studentsreg-backend.cyclic.app/";
   document.title = "STUDENTReg - Add Student";
   const [error, setError] = useState(false);
   const [showPass, setShowPass] = useState(false);
-  const history = useNavigate();
+  const navigate = useNavigate();
   const initialValues = {
     name: "",
     email: "",
@@ -27,7 +29,7 @@ function AddStudent() {
     handleBlur,
   } = useFormik({
     initialValues,
-    validationSchema: studentSchema,
+    validationSchema: registrationSchema,
     onSubmit: (values, action) => {
       const studentReg = {
         name: values.name.toUpperCase(),
@@ -38,10 +40,13 @@ function AddStudent() {
         dob: values.dob,
         city: values.city.toUpperCase(),
       };
-      axios.post("https://studentsreg-backend.cyclic.app/", studentReg).then(
-        () => {
+      axios.post(URL, studentReg).then(
+        (res) => {
+          const { id, token } = res.data;
+          localStorage.setItem("id", id);
+          localStorage.setItem("token", token);
           action.resetForm();
-          history("/");
+          navigate("/");
           setError();
         },
         (err) => {

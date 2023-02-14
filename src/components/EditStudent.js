@@ -1,16 +1,19 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState, useEffect } from "react";
-import { studentSchema } from "../validation/studentSchema";
+import { registrationSchema } from "../validation/registrationSchema";
 import { useNavigate, Link } from "react-router-dom";
 
 function EditStudent() {
+  const token = `bearer ${localStorage.getItem("token")}`;
+  const URL =
+    "http://localhost:2222" || "https://studentsreg-backend.cyclic.app/";
   document.title = "STUDENTReg - Edit Student";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const id = window.location.pathname.split("/").pop();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const initialData = {
     name: "",
     email: "",
@@ -31,7 +34,7 @@ function EditStudent() {
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialValues,
-    validationSchema: studentSchema,
+    validationSchema: registrationSchema,
     onSubmit: (values, action) => {
       const studentEdit = {
         name: values.name.toUpperCase(),
@@ -43,15 +46,18 @@ function EditStudent() {
         city: values.city.toUpperCase(),
       };
       axios
-        .put(`https://studentsreg-backend.cyclic.app/${id}`, studentEdit)
+        .put(`${URL}/${id}`, studentEdit, {
+          headers: { Authorization: token },
+        })
         .then(
           () => {
             action.resetForm();
-            history("/");
+            navigate("/");
             setError();
           },
           (err) => {
             setError(err.response.data.error);
+            navigate("/login");
           }
         );
     },
@@ -63,15 +69,18 @@ function EditStudent() {
   const fetchData = async () => {
     const id = window.location.pathname.split("/").pop();
     setLoading(true);
-    try {
-      const record = await axios.get(
-        `https://studentsreg-backend.cyclic.app/${id}`
-      );
-      setInitialValues(record.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+    await axios
+      .get(`${URL}/${id}`, {
+        headers: { Authorization: token },
+      })
+      .then((res) => {
+        setInitialValues(res.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        navigate("/login");
+      });
   };
 
   const handlePassStatus = () => {

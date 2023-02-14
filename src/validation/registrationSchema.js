@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const studentSchema = yup.object({
+export const registrationSchema = yup.object({
   name: yup
     .string()
     .min(2, "Name must have minimum 2 characters")
