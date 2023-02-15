@@ -1,29 +1,35 @@
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
+  const URL = "https://studentsreg-backend.cyclic.app/login";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const userLogin = {
       email,
       password,
     };
     await axios
-      .post("https://studentsreg-backend.cyclic.app/", userLogin)
+      .post(URL, userLogin)
       .then((res) => {
         const { id, token } = res.data;
         localStorage.setItem("id", id);
         localStorage.setItem("token", token);
+        setLoading(false);
         navigate("/");
       })
       .catch((err) => {
         setError(err.response.data.result);
+        setLoading(false);
       });
   };
 
@@ -60,7 +66,13 @@ function Login() {
           </>
         ) : null}
 
-        <input className="btn btn-primary mt-3" type="submit" value="Login" />
+        <button
+          className="btn btn-primary mt-3"
+          type="submit"
+          disabled={loading ? true : false}
+        >
+          {loading ? "Loading" : "Login"}
+        </button>
         <p>
           <br />
           Don't have an account? <Link to="/addstudent">Click here</Link> to

@@ -7,6 +7,8 @@ import { registrationSchema } from "../validation/registrationSchema";
 function AddStudent() {
   const URL = "https://studentsreg-backend.cyclic.app/";
   document.title = "STUDENTReg - Add Student";
+
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ function AddStudent() {
     initialValues,
     validationSchema: registrationSchema,
     onSubmit: (values, action) => {
+      setLoading(true);
       const studentReg = {
         name: values.name.toUpperCase(),
         email: values.email.toLowerCase(),
@@ -45,10 +48,12 @@ function AddStudent() {
           localStorage.setItem("id", id);
           localStorage.setItem("token", token);
           action.resetForm();
+          setLoading(false);
           navigate("/");
           setError();
         },
         (err) => {
+          setLoading(false);
           setError(err.response.data.error);
         }
       );
@@ -169,16 +174,17 @@ function AddStudent() {
         {errors.city && touched.city ? (
           <span className="input-errors">{errors.city}</span>
         ) : null}
-        <div className="mt-3">
-          <input className="btn btn-primary" type="submit" value="Register" />
-          <Link to="/">
-            <input
-              type="button"
-              value="Cancel"
-              className="btn btn-light ms-2"
-            />
-          </Link>
-        </div>
+
+        <button
+          className="btn btn-primary mt-3"
+          type="submit"
+          disabled={loading ? true : false}
+        >
+          {loading ? "Loading" : "Register"}
+        </button>
+        <Link to="/">
+          <button className="btn btn-light mt-3 ms-2">Cancel</button>
+        </Link>
       </form>
     </div>
   );

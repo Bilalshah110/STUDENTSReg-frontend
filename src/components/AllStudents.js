@@ -11,7 +11,7 @@ function AllStudents() {
   const token = `bearer ${localStorage.getItem("token")}`;
   const URL = "https://studentsreg-backend.cyclic.app/";
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleEdit = (student) => {
@@ -61,113 +61,115 @@ function AllStudents() {
   }, []);
 
   const fetchData = async () => {
-    setLoading("Loading...");
+    setLoading(true);
     await axios
       .get(URL, {
         headers: { Authorization: token },
       })
       .then((res) => {
         setStudents(res.data);
-        console.log(res.data);
-        setLoading();
+        setLoading(false);
       })
       .catch(() => {
         navigate("/login");
-        setLoading("Connection Error");
+        setLoading(false);
       });
   };
 
   return (
     <div className="container mt-2">
-      <div className="d-flex justify-content-between">
-        <h4>Registered Students</h4>
-        <input
-          className="form-control search-student"
-          type="text"
-          placeholder="Search"
-          onChange={handleSearch}
-        />
-      </div>
-      <hr />
-      {loading ? (
+      {!loading ? (
+        <>
+          <div className="d-flex justify-content-between">
+            <h4>Registered Students</h4>
+            <input
+              className="form-control search-student"
+              type="text"
+              placeholder="Search"
+              onChange={handleSearch}
+            />
+          </div>
+          <hr />
+
+          <div>
+            {students.length !== 0 ? (
+              <div className="my-table">
+                <table className="table table-sm table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone #</th>
+                      <th>DOB</th>
+                      <th>City</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {students.map((student) => {
+                      return (
+                        <tr key={student._id}>
+                          <th scope="row">{student._id.slice(5, 7)}</th>
+                          <td>{student.name}</td>
+                          <td>{student.email}</td>
+                          <td>{student.phone}</td>
+                          <td>{student.dob}</td>
+                          <td>{student.city}</td>
+                          <td>
+                            <i
+                              title="Edit"
+                              onClick={() => handleEdit(student)}
+                              className="icon edit-icon"
+                            >
+                              <FaEdit />
+                            </i>
+                            &nbsp;&nbsp;
+                            <i
+                              title="Delete"
+                              onClick={() =>
+                                window.confirm(
+                                  `Are you sure to delete ${student.name}'s record`
+                                )
+                                  ? handleDelete(student)
+                                  : null
+                              }
+                              className="icon delete-icon"
+                            >
+                              <RiDeleteBin6Line />
+                            </i>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <h5
+                style={{ color: "rgb(150, 150, 150)" }}
+                className="my-3 mt-5 display-6 container-fluid"
+              >
+                No Record
+              </h5>
+            )}
+            <div>
+              <input
+                type="button"
+                className="form-control btn my-btn mt-3"
+                value="Logout"
+                onClick={handleLogout}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
         <h5
           style={{ color: "rgb(150, 150, 150)" }}
           className="my-3 mt-5 display-6 container-fluid"
         >
-          {loading}
+          Loading...
         </h5>
-      ) : (
-        <div>
-          {students.length !== 0 ? (
-            <div className="my-table">
-              <table className="table table-sm table-striped">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone #</th>
-                    <th>DOB</th>
-                    <th>City</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {students.map((student) => {
-                    return (
-                      <tr key={student._id}>
-                        <th scope="row">{student._id.slice(5, 7)}</th>
-                        <td>{student.name}</td>
-                        <td>{student.email}</td>
-                        <td>{student.phone}</td>
-                        <td>{student.dob}</td>
-                        <td>{student.city}</td>
-                        <td>
-                          <i
-                            title="Edit"
-                            onClick={() => handleEdit(student)}
-                            className="icon edit-icon"
-                          >
-                            <FaEdit />
-                          </i>
-                          &nbsp;&nbsp;
-                          <i
-                            title="Delete"
-                            onClick={() =>
-                              window.confirm(
-                                `Are you sure to delete ${student.name}'s record`
-                              )
-                                ? handleDelete(student)
-                                : null
-                            }
-                            className="icon delete-icon"
-                          >
-                            <RiDeleteBin6Line />
-                          </i>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <h5
-              style={{ color: "rgb(150, 150, 150)" }}
-              className="my-3 mt-5 display-6 container-fluid"
-            >
-              No Record
-            </h5>
-          )}
-          <div>
-            <input
-              type="button"
-              className="form-control btn my-btn mt-3"
-              value="Logout"
-              onClick={handleLogout}
-            />
-          </div>
-        </div>
       )}
     </div>
   );

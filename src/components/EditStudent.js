@@ -8,6 +8,7 @@ function EditStudent() {
   const token = `bearer ${localStorage.getItem("token")}`;
   const URL = "https://studentsreg-backend.cyclic.app/";
   document.title = "STUDENTReg - Edit Student";
+  const [dataLoad, setDataLoad] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showPass, setShowPass] = useState(false);
@@ -35,6 +36,7 @@ function EditStudent() {
     initialValues: initialValues,
     validationSchema: registrationSchema,
     onSubmit: (values, action) => {
+      setLoading(true)
       const studentEdit = {
         name: values.name.toUpperCase(),
         email: values.email.toLowerCase(),
@@ -51,11 +53,13 @@ function EditStudent() {
         .then(
           () => {
             action.resetForm();
+            setLoading(false)
             navigate("/");
             setError();
           },
           (err) => {
             setError(err.response.data.error);
+            setLoading(false)
             navigate("/login");
           }
         );
@@ -67,14 +71,14 @@ function EditStudent() {
 
   const fetchData = async () => {
     const id = window.location.pathname.split("/").pop();
-    setLoading(true);
+    setDataLoad(true);
     await axios
       .get(`${URL}/${id}`, {
         headers: { Authorization: token },
       })
       .then((res) => {
         setInitialValues(res.data);
-        setLoading(false);
+        setDataLoad(false);
       })
       .catch((error) => {
         console.log(error);
@@ -90,7 +94,7 @@ function EditStudent() {
     <div className="container p-3 my-3">
       <h3>Edit details</h3>
       <hr />
-      {loading ? (
+      {dataLoad ? (
         <h5
           style={{ color: "rgb(150, 150, 150)" }}
           className="my-3 mt-5 display-6 container-fluid"
@@ -207,16 +211,16 @@ function EditStudent() {
           {errors.city && touched.city ? (
             <span className="input-errors">{errors.city}</span>
           ) : null}
-          <div className="mt-3">
-            <input className="btn btn-success" type="submit" value="Update" />
-            <Link to="/">
-              <input
-                type="button"
-                value="Cancel"
-                className="btn btn-light ms-2"
-              />
-            </Link>
-          </div>
+                  <button
+          className="btn btn-primary mt-3"
+          type="submit"
+          disabled={loading ? true : false}
+        >
+          {loading ? "Loading" : "Update"}
+        </button>
+        <Link to="/">
+          <button className="btn btn-light mt-3 ms-2">Cancel</button>
+        </Link>
         </form>
       )}
     </div>
