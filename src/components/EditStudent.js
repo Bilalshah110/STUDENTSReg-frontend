@@ -58,9 +58,13 @@ function EditStudent() {
             setError();
           },
           (err) => {
-            setError(err.response.data.error);
-            setLoading(false);
-            navigate("/login");
+            if (err.response.status === 422) {
+              setError(err.response.data.error);
+              setLoading(false);
+            } else {
+              setLoading(false);
+              navigate("/login");
+            }
           }
         );
     },
@@ -80,8 +84,8 @@ function EditStudent() {
         setInitialValues(res.data);
         setDataLoad();
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        console.log({ error: "Token expired" });
         navigate("/login");
       });
   };
@@ -103,10 +107,7 @@ function EditStudent() {
         </h5>
       ) : (
         <form onSubmit={handleSubmit}>
-          <span className="input-errors">
-            {" "}
-            {error ? error : null}
-          </span>
+          <span className="input-errors"> {error ? error : null}</span>
           <div className="form-group mt-2">
             <input
               type="text"
