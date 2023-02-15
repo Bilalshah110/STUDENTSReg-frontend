@@ -4,7 +4,7 @@ export const registrationSchema = yup.object({
   name: yup
     .string()
     .min(2, "Name must have minimum 2 characters")
-    .max(20, "Name can have maximum 20 characters")
+    .max(30, "Name can have maximum 30 characters")
     .required("Name is required"),
   email: yup
     .string()
@@ -20,7 +20,7 @@ export const registrationSchema = yup.object({
     .min(6, "Confirm password must have minimum 6 characters")
     .max(20, "Confirm password can have maximum 20 characters")
     .required("Confirm password is required")
-    .oneOf([yup.ref("password"), null], "Password do not match"),
+    .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string()
     .min(7, "Phone must have minimum 7 characters")
