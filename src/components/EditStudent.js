@@ -10,7 +10,7 @@ function EditStudent() {
   document.title = "STUDENTReg - Edit Student";
   const [dataLoad, setDataLoad] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
   const [showPass, setShowPass] = useState(false);
   const id = window.location.pathname.split("/").pop();
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function EditStudent() {
     initialValues: initialValues,
     validationSchema: registrationSchema,
     onSubmit: (values, action) => {
-      setLoading(true)
+      setLoading(true);
       const studentEdit = {
         name: values.name.toUpperCase(),
         email: values.email.toLowerCase(),
@@ -53,13 +53,13 @@ function EditStudent() {
         .then(
           () => {
             action.resetForm();
-            setLoading(false)
+            setLoading(false);
             navigate("/");
             setError();
           },
           (err) => {
             setError(err.response.data.error);
-            setLoading(false)
+            setLoading(false);
             navigate("/login");
           }
         );
@@ -78,7 +78,7 @@ function EditStudent() {
       })
       .then((res) => {
         setInitialValues(res.data);
-        setDataLoad(false);
+        setDataLoad();
       })
       .catch((error) => {
         console.log(error);
@@ -103,6 +103,10 @@ function EditStudent() {
         </h5>
       ) : (
         <form onSubmit={handleSubmit}>
+          <span className="input-errors">
+            {" "}
+            {error ? error : null}
+          </span>
           <div className="form-group mt-2">
             <input
               type="text"
@@ -131,10 +135,6 @@ function EditStudent() {
           {errors.email && touched.email ? (
             <span className="input-errors">{errors.email}</span>
           ) : null}
-          <span className="input-errors">
-            {" "}
-            {error !== false ? error : null}
-          </span>
           <div className="form-group mt-2 ">
             <div className="d-flex justify-content-row ">
               <input
@@ -211,16 +211,16 @@ function EditStudent() {
           {errors.city && touched.city ? (
             <span className="input-errors">{errors.city}</span>
           ) : null}
-                  <button
-          className="btn btn-primary mt-3"
-          type="submit"
-          disabled={loading ? true : false}
-        >
-          {loading ? "Loading" : "Update"}
-        </button>
-        <Link to="/">
-          <button className="btn btn-light mt-3 ms-2">Cancel</button>
-        </Link>
+          <button
+            className="btn btn-primary mt-3"
+            type="submit"
+            disabled={loading ? true : false}
+          >
+            {loading ? "Loading" : "Update"}
+          </button>
+          <Link to="/">
+            <button className="btn btn-light mt-3 ms-2">Cancel</button>
+          </Link>
         </form>
       )}
     </div>

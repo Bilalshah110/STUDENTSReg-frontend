@@ -9,7 +9,7 @@ function AddStudent() {
   document.title = "STUDENTReg - Add Student";
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
   const initialValues = {
@@ -69,6 +69,7 @@ function AddStudent() {
       <h3>Registration Form</h3>
       <hr />
       <form onSubmit={handleSubmit}>
+        <span className="input-errors"> {error ? error : null}</span>
         <div className="form-group mt-2 ">
           <input
             type="text"
@@ -97,7 +98,6 @@ function AddStudent() {
         {errors.email && touched.email ? (
           <span className="input-errors">{errors.email}</span>
         ) : null}
-        <span className="input-errors"> {error !== false ? error : null}</span>
         <div className="form-group mt-2 ">
           <div className="d-flex justify-content-row ">
             <input
