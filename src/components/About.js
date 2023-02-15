@@ -16,17 +16,19 @@ function About() {
       <p>Registration App</p>
       <h6>App Features</h6>
       <ul>
-        <li>Add Students</li>
         <li>
-          Registers on unique email i.e. will not regiter on email registered
-          already
+          Add Students: Register unique email addresses; duplicates are not
+          allowed.
         </li>
         <li>Authorize student after successfull login</li>
-        <li>Display Registered Students</li>
-        <li>Search Registered Students</li>
-        <li>Edit Students record</li>
-        <li>Delete Student's record</li>
-        <li>Student can delete/edit only his record but not others' record</li>
+        <li>Display a list of registered students.</li>
+        <li>Search the list of registered students for specific records.</li>
+        <li>Edit and update student records.</li>
+        <li>Delete student records from the database.</li>
+        <li>
+          Only the student who created a record can edit or delete it; other
+          students cannot modify the record.
+        </li>
       </ul>
 
       <h5>Development info</h5>
